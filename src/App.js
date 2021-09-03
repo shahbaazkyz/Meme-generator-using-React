@@ -19,8 +19,8 @@ function App() {
     fetch("https://api.imgflip.com/get_memes").then((data) =>
       data.json().then((respone) => setImages(respone.data.memes))
     );
-    console.log(allImage);
-  }, []);
+    // console.log(allImage);
+  }, );
 
   if (generatedMeme) {
     return (
@@ -78,9 +78,10 @@ function App() {
           <h1>Choose a Pic for Meme!</h1>
           <div className="row">
             <div className="col-lg-4 col-md-12 mb-4 mb-lg-0">
-          {allImage.map((img) => {
+          {allImage.map((img , index) => {
             return (
-                 <Meme
+              <Meme
+                key = {index}
                 img={img}
                 onClick={
                   () => {
