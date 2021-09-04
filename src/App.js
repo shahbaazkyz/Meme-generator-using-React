@@ -20,7 +20,7 @@ function App() {
       data.json().then((respone) => setImages(respone.data.memes))
     );
     // console.log(allImage);
-  }, );
+  },[] );
 
   if (generatedMeme) {
     return (
