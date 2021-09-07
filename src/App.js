@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import Meme from "./componenets/meme";
 // import "./App.css";
 
-
-
 const objectToQueryParam = (obj) => {
   const params = Object.entries(obj).map(([key, value]) => `${key}=${value}`);
   return "?" + params.join("&");
@@ -20,7 +18,7 @@ function App() {
       data.json().then((respone) => setImages(respone.data.memes))
     );
     // console.log(allImage);
-  },[] );
+  }, []);
 
   if (generatedMeme) {
     return (
@@ -35,22 +33,22 @@ function App() {
       {/* <header className="App-header"> */}
       {sImage && (
         <form
-          onSubmit={async e => {
+          onSubmit={async (e) => {
             e.preventDefault();
             // Logic to create meme from ApI
             const params = {
               template_id: sImage.id,
               text0: topText,
               text1: bottomText,
-              username: "forfirebasekyz",
-              password: "uDJG8v=dER.jL!w",
+              username: process.env.REACT_APP_IMGFLIP_USERNAME,
+              password: process.env.REACT_APP_IMGFLIP_PASSWORD,
             };
             const response = await fetch(
               `https://api.imgflip.com/caption_image${objectToQueryParam(
                 params
               )}`
             );
-            console.log(response);
+
             const json = await response.json();
             console.log(json);
             setMeme(json.data.url);
@@ -61,7 +59,7 @@ function App() {
             type="text"
             placeholder="Top Text"
             value={topText}
-            onChange={e => setTop(e.target.value)}
+            onChange={(e) => setTop(e.target.value)}
           />
           <input
             type="text"
@@ -78,21 +76,19 @@ function App() {
           <h1>Choose a Pic for Meme!</h1>
           <div className="row">
             <div className="col-lg-4 col-md-12 mb-4 mb-lg-0">
-          {allImage.map((img , index) => {
-            return (
-              <Meme
-                key = {index}
-                img={img}
-                onClick={
-                  () => {
-                    setImage(img)
-                  }
-                }
-              />
-            );
-          })}
-                </div>
-              </div>
+              {allImage.map((img, index) => {
+                return (
+                  <Meme
+                    key={index}
+                    img={img}
+                    onClick={() => {
+                      setImage(img);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </>
       )}
       {/* </header> */}
